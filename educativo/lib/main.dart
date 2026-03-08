@@ -1,12 +1,17 @@
-import 'package:educativo/Theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'theme/theme.dart';
 import 'screens/login_screen.dart';
 
-void main() {
-  runApp(Educativo());
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(const Educativo());
 }
 
 class Educativo extends StatelessWidget {
+
+  const Educativo({super.key});
 
   @override
   Widget build(BuildContext context) {

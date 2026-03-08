@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'student_home.dart';
 import 'admin_home.dart';
+import '../services/user_database.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
 
   final email = TextEditingController();
   final password = TextEditingController();
+
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,28 +17,28 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text("Gestedu"),
+        title: const Text("Gestedu"),
       ),
 
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
 
         child: Column(
 
           children: [
 
-            SizedBox(height:40),
+            const SizedBox(height:40),
 
-            Text(
+            const Text(
               "Bienvenido a Gestedu",
               style: TextStyle(fontSize:22),
             ),
 
-            SizedBox(height:30),
+            const SizedBox(height:30),
 
             TextField(
               controller: email,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Correo",
               ),
             ),
@@ -42,15 +46,50 @@ class LoginScreen extends StatelessWidget {
             TextField(
               controller: password,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Contraseña",
               ),
             ),
 
-            SizedBox(height:30),
+            const SizedBox(height:30),
 
+            /// BOTON LOGIN
             ElevatedButton(
-              child: Text("Ingresar como estudiante"),
+              child: const Text("Iniciar Sesión"),
+              onPressed: () async {
+
+                bool ok = await UserDatabase.login(
+                  email.text,
+                  password.text
+                );
+
+                if(ok){
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:(context)=>AdminHome()
+                    )
+                  );
+
+                }else{
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Usuario incorrecto")
+                    )
+                  );
+
+                }
+
+              },
+            ),
+
+            const SizedBox(height:10),
+
+            /// BOTON ESTUDIANTE
+            ElevatedButton(
+              child: const Text("Ingresar como estudiante"),
               onPressed: (){
                 Navigator.push(
                   context,
@@ -61,13 +100,16 @@ class LoginScreen extends StatelessWidget {
               },
             ),
 
-            ElevatedButton(
-              child: Text("Ingresar como administrador"),
+            const SizedBox(height:10),
+
+            /// BOTON REGISTRO
+            TextButton(
+              child: const Text("Crear cuenta"),
               onPressed: (){
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder:(context)=>AdminHome()
+                    builder:(context)=>RegisterScreen()
                   )
                 );
               },
